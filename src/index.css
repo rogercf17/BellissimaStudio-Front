@@ -1,2 +1,65 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
+
+@theme {
+  /* Bordeaux — cor principal e suas variações */
+  --color-bordeaux: #691B37;
+  --color-bordeaux-dark: #4B1128;   /* hover, áreas de contraste */
+  --color-bordeaux-deep: #350B1B;   /* fundo mais profundo */
+  --color-bordeaux-soft: #8A3552;   /* realces sobre fundo claro */
+
+  /* Rosé — tons claros derivados do bordeaux */
+  --color-blush: #F4E4E8;           /* fundos de destaque, item ativo */
+  --color-blush-deep: #E9C9D2;      /* texto suave sobre bordeaux */
+
+  /* Champagne — acento dourado, usado com moderação */
+  --color-champagne: #C8A26B;
+  --color-champagne-soft: #F1E5CF;
+
+  /* Neutros com subtom de vinho */
+  --color-pearl: #FAF6F6;           /* fundo das páginas */
+  --color-line: #EBDCE0;            /* bordas e divisores */
+  --color-ink: #2B1820;             /* texto principal */
+  --color-muted: #7C6169;           /* texto secundário */
+
+  /* Estado */
+  --color-danger: #B3261E;
+
+  --font-serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-pearl);
+    font-variant-numeric: lining-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .font-serif {
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  ::selection {
+    background-color: var(--color-bordeaux);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-bordeaux);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

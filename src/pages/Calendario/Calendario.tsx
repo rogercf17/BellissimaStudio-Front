@@ -15,10 +15,7 @@ function pad(n: number) {
 function diaSelecionadoKey(ano: number, mes: number, dia: number) {
     return `${ano}-${pad(mes + 1)}-${pad(dia)}`
 }
-const diasDaSemana = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
-function mondayFirstIndex(jsGetDay: number) {
-    return (jsGetDay + 6) % 7
-}
+const diasDaSemana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
 type DiaCell = {
     dia: number
     ano: number
@@ -29,7 +26,7 @@ function montarGridMes(ano: number, mes: number): DiaCell[] {
     const primeiroDoMes = new Date(ano, mes, 1)
     const diasNoMes = new Date(ano, mes + 1, 0).getDate()
     const diasNoMesPassado = new Date(ano, mes, 0).getDate()
-    const colunaInicial = mondayFirstIndex(primeiroDoMes.getDay())
+    const colunaInicial = primeiroDoMes.getDay()
 
     const cells: DiaCell[] = []
 
@@ -123,24 +120,26 @@ export default function Calendario() {
     const [agendamentoEmEdicao, setAgendamentoEmEdicao] = useState<AgendamentoData | null>(null)
 
     return (
-        <div className="min-h-screen bg-[#FBF7F3] p-1 text-[#2B2420]">
-            <h1 className="mb-2 font-serif text-3xl">Calendario</h1>
+        <div className="bg-pearl p-1 text-ink">
+            <h1 className="mb-2 font-serif text-3xl text-bordeaux sm:text-4xl">Calendario</h1>
 
             <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.4fr_1fr]">
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
-                    <div className="mb-3 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
+                <div className="rounded-2xl border-line bg-white p-3 shadow-sm sm:p-4">
+                    <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 sm:gap-3">
                             <button
                                 onClick={() => irParaMes(-1)}
-                                className="rounded-full border border-[#EDE3DC] px-2.5 py-1 hover:bg-[#FBF7F3]"
+                                className="rounded-full border border-line px-3 py-1.5 sm:px-2.5 sm:py-1 
+                                text-bordeaux hover:bg-blush transition"
                                 aria-label="Mês anterior"
                             >
                                 ‹
                             </button>
-                            <h2 className="font-serif text-2xl">{mesLabel} {ano}</h2>
+                            <h2 className="font-serif text-2xl text-bordeaux sm:text-3xl">{mesLabel} {ano}</h2>
                             <button
                                 onClick={() => irParaMes(1)}
-                                className="rounded-full border border-[#EDE3DC] px-2.5 py-1 hover:bg-[#FBF7F3]"
+                                className="rounded-full border border-line px-3 py-1.5 sm:px-2.5 sm:py-1 
+                                text-bordeaux hover:bg-blush transition"
                                 aria-label="Próximo mês"
                             >
                                 ›
@@ -152,19 +151,20 @@ export default function Calendario() {
                                 setMes(hoje.getMonth())
                                 setDiaSelecionado(hojeKey())
                             }}
-                            className="cursor-pointer rounded-xl border border-[#EDE3DC] px-3 py-1.5 text-sm hover:bg-[#FBF7F3]"
+                            className="cursor-pointer rounded-xl border border-bordeaux px-3 py-1.5 
+                            text-sm text-bordeaux hover:bg-blush transition"
                         >
                             Hoje
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-7 text-center text-xs font-medium text-[#9A8B80]">
+                    <div className="grid grid-cols-7 text-center text-xs font-medium text-muted">
                         {diasDaSemana.map((d) => (
                             <div key={d} className="pb-2">{d}</div>
                         ))}
                     </div>
 
-                    <div className="grid grid-cols-7 gap-1">
+                    <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
                         {cells.map((cell, idx) => {
                             const key = diaSelecionadoKey(cell.ano, cell.mes, cell.dia)
                             const isSelecionado = cell.noMes && key === diaSelecionado
@@ -176,21 +176,21 @@ export default function Calendario() {
                                     key={idx}
                                     disabled={!cell.noMes}
                                     onClick={() => setDiaSelecionado(key)}
-                                    className={`flex aspect-square cursor-pointer flex-col items-center justify-start rounded-xl pt-2 text-sm transition-colors ${
+                                    className={`flex aspect-square cursor-pointer flex-col items-center justify-start rounded-lg pt-1.5 text-sm sm:rounded-xl sm:pt-2 transition-colors ${
                                         !cell.noMes
-                                            ? "cursor-default text-[#D9CFC5]"
+                                            ? "cursor-default text-line"
                                             : isSelecionado
-                                            ? "bg-[#B5675D] text-white"
-                                            : "text-[#2B2420] hover:bg-[#FBF7F3]"
+                                            ? "bg-bordeaux text-white"
+                                            : "text-ink hover:bg-blush"
                                     }`}
                                 >
-                                    <span className={isHoje && !isSelecionado ? "font-semibold text-[#B5675D]" : isSelecionado ? "font-medium" : ""}>
+                                    <span className={isHoje && !isSelecionado ? "font-semibold text-bordeuax" : isSelecionado ? "font-medium" : ""}>
                                         {cell.dia}
                                     </span>
                                     {temAgendamentos && (
                                         <span
                                             className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
-                                                isSelecionado ? "bg-white/70" : "bg-[#B5675D]"
+                                                isSelecionado ? "bg-champagne" : "bg-bordeaux"
                                             }`}
                                         />
                                     )}
@@ -200,33 +200,35 @@ export default function Calendario() {
                     </div>
                 </div>
 
-                <div className="rounded-2xl bg-white p-5 shadow-sm">
-                    <h2 className="mb-1 font-serif text-lg">
+                <div className="rounded-2xl border-line bg-white p-4 shadow-sm sm:p-5">
+                    <h2 className="mb-1 font-serif text-xl text-bordeaux sm:text-2xl">
                         Agendamentos de {diaSelecionadoLabelCurto}
                     </h2>
-                    <p className="mb-4 text-xs text-[#9A8B80]">{diaSelecionadoLabelLongo}</p>
+                    <p className="mb-4 text-xs text-muted">{diaSelecionadoLabelLongo}</p>
 
                     <div className="flex flex-col gap-3">
                         {agendamentosDoDia.length === 0 && (
-                            <p className="py-6 text-center text-sm italic text-[#9A8B80]">
+                            <p className="py-6 text-center text-sm italic text-muted">
                                 Nenhum agendamento para este dia.
                             </p>
                         )}
                         {agendamentosDoDia.map((a) => (
                             <div
                                 key={a.id}
-                                className="flex items-center gap-3 rounded-xl border-l-4 border-l-[#B5675D] bg-[#FBF7F3] p-3"
+                                className="flex items-center gap-3 rounded-xl border-l-4 
+                                border-l-bordeaux bg-blush/60 p-3"
                             >
                                 <div className="w-14 shrink-0 text-xs">
-                                    <p className="font-medium text-[#2B2420]">{a.horario}</p>
+                                    <p className="font-medium text-ink">{a.horario}</p>
                                 </div>
                                 <div className="min-w-0 flex-1">
                                     <p className="truncate text-sm font-medium text-[#2B2420]">{a.nomeCliente}</p>
-                                    <p className="truncate text-xs text-[#9A8B80]">{a.servicos.join(" + ")}</p>
+                                    <p className="truncate text-xs text-muted">{a.servicos.join(" + ")}</p>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex shrink-0 items-center gap-1 sm:gap-2">
                                     <button
-                                        className="cursor-pointer"
+                                        className="cursor-pointer rounded-md p-2 text-muted sm:p-1 
+                                        hover:bg-danger/10 hover:text-danger transition"
                                         onClick={() => {
                                             if (typeof a.id === "number") {
                                                 mutate(a.id)
@@ -238,7 +240,8 @@ export default function Calendario() {
                                         {isPending ? "Excluindo..." : <Trash color="#ff0000" size={18} />}
                                     </button>
                                     <button
-                                        className="cursor-pointer"
+                                        className="cursor-pointer rounded-md p-2 text-muted sm:p-1 
+                                        hover:bg-blush hover:text-bordeaux transition"
                                         onClick={() => setAgendamentoEmEdicao(a)}
                                         aria-label="Editar agendamento"
                                     >
@@ -252,7 +255,7 @@ export default function Calendario() {
             </div>
 
             {agendamentoEmEdicao && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+                <div className="fixed inset-0 z-50 flex overflow-y-auto bg-bordeaux-deep/60 p-4 backdrop-blur-sm">
                     <CreateModal
                         agendamento={agendamentoEmEdicao}
                         closeModal={() => setAgendamentoEmEdicao(null)}

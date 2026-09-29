@@ -41,14 +41,14 @@ export default function CriarAgendamento() {
     }, [isSuccess])
 
     return (
-        <div className="min-h-screen px-4 py-10">
-            <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-                <h1 className="text-xl font-semibold text-gray-900 mb-6">
+        <div className="px-0 py-2 sm:px-2 sm:py-4">
+            <div className="w-full bg-white rounded-2xl shadow-sm border border-line p-5 sm:p-8">
+                <h1 className="font-serif text-2xl sm:text-3xl text-bordeaux mb-6">
                     Criar Agendamento
                 </h1>
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-sm font-medium text-gray-700">
+                        <label className="text-sm font-medium text-ink">
                             Nome da cliente
                         </label>
                         <input 
@@ -56,52 +56,52 @@ export default function CriarAgendamento() {
                             value={nomeCliente} 
                             placeholder="Nome da cliente"
                             onChange={(e) => setNomeCliente(e.target.value)} 
-                            className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition"
+                            className="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
                         />
                     </div>
 
-                    <div className="flex gap-4">
-                        <div className="flex flex-col gap-1.5 flex-1">
-                            <label className="text-sm font-medium text-gray-700">Data</label>
+                    <div className="flex flex-col gap-4 min-[420px]:flex-row">
+                        <div className="flex flex-col gap-1.5 min-w-0 min-[420px]:flex-1">
+                            <label className="text-sm font-medium text-ink">Data</label>
                             <input 
                                 type="date" 
                                 value={data}
                                 onChange={(e) => setData(e.target.value)}
-                                className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition"
+                                className="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
                             />
                         </div>
 
-                        <div className="flex flex-col gap-1.5 flex-1">
-                            <label className="text-sm font-medium text-gray-700">Horário</label>
+                        <div className="flex flex-col gap-1.5 min-w-0 min-[420px]:flex-1">
+                            <label className="text-sm font-medium text-ink">Horário</label>
                             <input 
                                 type="time" 
                                 value={horario}
                                 onChange={(e) => setHorario(e.target.value)}
-                                className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent transition"
+                                className="rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
                             />
                         </div>
                     </div>
                     
-                    <label className="text-sm font-medium text-gray-700">
+                    <label className="text-sm font-medium text-ink">
                         Serviço(s):
                     </label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-2">
                         {SERVICOS.map((servico) => {
                             const selecionado = servicos.includes(servico)
                             return(
                                 <label 
                                     key={servico}
-                                    className={`flex items-center gap-1 rounded-lg border px-3 py-2 text-sm cursor-pointer transition ${
+                                    className={`flex items-center gap-1 rounded-lg border px-3 py-2.5 sm:py-2 text-sm cursor-pointer transition ${
                                         selecionado
-                                            ? "border-rose-400 bg-rose-50 text-rose-700"
-                                            : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                                            ? "border-bordeaux bg-blush text-bordeaux font-medium"
+                                            : "border-line text-ink hover:bg-pearl"
                                     }`}
                                 >
                                     <input 
                                         type="checkbox"
                                         checked={servicos.includes(servico)}
                                         onChange={() => toggleServico(servico)}
-                                        className="accent-rose-500"
+                                        className="h-5 w-5 sm:h-4 sm:w-4 rounded border-line text-bordeaux focus:ring-bordeaux focus:ring-offset-0"
                                     />
                                     {servico}
                                 </label>
@@ -111,7 +111,7 @@ export default function CriarAgendamento() {
                     <button 
                         type="submit"
                         disabled={isPending}
-                        className="cursor-pointer w-full mt-2 rounded-lg bg-rose-500 text-white text-sm font-medium py-2.5 hover:bg-rose-600 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                        className="cursor-pointer w-full mt-2 rounded-lg bg-bordeaux text-white text-sm font-medium py-3 sm:py-2.5 hover:bg-bordeaux-dark disabled:opacity-60 disabled:cursor-not-allowed transition"
                     >
                         {isPending ? 'Criando...' : 'Criar'}
                     </button>

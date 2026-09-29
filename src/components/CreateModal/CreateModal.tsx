@@ -46,15 +46,15 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
     }, [isSuccess])
 
     return (
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-[#EDE3DC] p-6 sm:p-8">
+        <div className="m-auto w-full max-w-md bg-white rounded-2xl shadow-xl border border-line p-6 sm:p-8">
             <div className="flex items-center justify-between mb-6">
-                <h1 className="font-serif text-xl text-[#2B2420]">
+                <h1 className="font-serif text-2xl sm:text-3xl text-bordeaux">
                     Editar Agendamento
                 </h1>
                 <button
                     type="button"
                     onClick={closeModal}
-                    className="cursor-pointer text-[#9A8B80] hover:text-[#2B2420] transition"
+                    className="cursor-pointer text-muted hover:text-bordeaux transition"
                     aria-label="Fechar"
                 >
                     ✕
@@ -63,7 +63,7 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-[#2B2420]">
+                    <label className="text-sm font-medium text-ink">
                         Nome da cliente
                     </label>
                     <input
@@ -71,53 +71,53 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
                         value={nomeCliente}
                         placeholder="Nome da cliente"
                         onChange={(e) => setNomeCliente(e.target.value)}
-                        className="rounded-lg border border-[#EDE3DC] px-3 py-2 text-sm text-[#2B2420] placeholder:text-[#B8ACA1] focus:outline-none focus:ring-2 focus:ring-[#B5675D] focus:border-transparent transition"
+                        className="rounded-lg border border-line px-3 py-2 text-sm text-ink placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
                     />
                 </div>
 
-                <div className="flex gap-4">
-                    <div className="flex flex-col gap-1.5 flex-1">
-                        <label className="text-sm font-medium text-[#2B2420]">Data</label>
+                <div className="flex flex-col gap-4 min-[420px]:flex-row">
+                    <div className="flex flex-col gap-1.5 min-w-0 min-[420px]:flex-1">
+                        <label className="text-sm font-medium text-ink">Data</label>
                         <input
                             type="date"
                             value={data}
                             onChange={(e) => setData(e.target.value)}
-                            className="rounded-lg border border-[#EDE3DC] px-3 py-2 text-sm text-[#2B2420] focus:outline-none focus:ring-2 focus:ring-[#B5675D] focus:border-transparent transition"
+                            className="rounded-lg border border-line px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
                         />
                     </div>
 
-                    <div className="flex flex-col gap-1.5 flex-1">
-                        <label className="text-sm font-medium text-[#2B2420]">Horário</label>
+                    <div className="flex flex-col gap-1.5 min-w-0 min-[420px]:flex-1">
+                        <label className="text-sm font-medium text-ink">Horário</label>
                         <input
                             type="time"
                             value={horario}
                             onChange={(e) => setHorario(e.target.value)}
-                            className="rounded-lg border border-[#EDE3DC] px-3 py-2 text-sm text-[#2B2420] focus:outline-none focus:ring-2 focus:ring-[#B5675D] focus:border-transparent transition"
+                            className="rounded-lg border border-line px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
                         />
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-[#2B2420]">
+                    <label className="text-sm font-medium text-ink">
                         Serviço(s)
                     </label>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-2">
                         {SERVICOS.map((servico) => {
                             const selecionado = servicos.includes(servico)
                             return (
                                 <label
                                     key={servico}
-                                    className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer transition ${
+                                    className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 sm:py-2 text-sm cursor-pointer transition ${
                                         selecionado
-                                            ? "border-[#B5675D] bg-[#FBF7F3] text-[#B5675D] font-medium"
-                                            : "border-[#EDE3DC] text-[#2B2420] hover:bg-[#FBF7F3]"
+                                            ? "border-bordeaux bg-blush text-bordeaux font-medium"
+                                            : "border-line text-ink hover:bg-pearl"
                                     }`}
                                 >
                                     <input
                                         type="checkbox"
                                         checked={selecionado}
                                         onChange={() => toggleServico(servico)}
-                                        className="h-4 w-4 rounded border-[#D9CFC5] text-[#B5675D] focus:ring-[#B5675D] focus:ring-offset-0"
+                                        className="h-5 w-5 sm:h-4 sm:w-4 rounded border-line text-bordeaux focus:ring-bordeaux focus:ring-offset-0"
                                     />
                                     {servico}
                                 </label>
@@ -127,7 +127,7 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
                 </div>
 
                 {isError && (
-                    <p className="text-sm text-red-500">
+                    <p className="text-sm text-danger">
                         Não foi possível salvar as mudanças. Tente novamente.
                     </p>
                 )}
@@ -136,14 +136,14 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
                     <button
                         type="button"
                         onClick={closeModal}
-                        className="cursor-pointer flex-1 rounded-lg border border-[#EDE3DC] text-[#2B2420] text-sm font-medium py-2.5 hover:bg-[#FBF7F3] transition"
+                        className="cursor-pointer flex-1 rounded-lg border border-line text-ink text-sm font-medium py-2.5 hover:bg-pearl transition"
                     >
                         Cancelar
                     </button>
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="cursor-pointer flex-1 rounded-lg bg-[#B5675D] text-white text-sm font-medium py-2.5 hover:bg-[#9C564D] disabled:opacity-60 disabled:cursor-not-allowed transition"
+                        className="cursor-pointer flex-1 rounded-lg bg-bordeaux text-white text-sm font-medium py-2.5 hover:bg-bordeaux-dark disabled:opacity-60 disabled:cursor-not-allowed transition"
                     >
                         {isPending ? "Editando..." : "Editar"}
                     </button>

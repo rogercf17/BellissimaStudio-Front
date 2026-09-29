@@ -46,23 +46,23 @@ export default function Login() {
     }
 
     return(
-        <div className="min-h-screen grid lg:grid-cols-[1.1fr_1fr] bg-[#FAF6F6]">
-            <section className="bg-[#691B37] text-white flex flex-col justify-center px-10 py-12 lg:px-20">
-                <h1 className="font-serif text-5xl lg:text-7xl leading-none">
+        <div className="min-h-dvh grid grid-rows-[auto_1fr] lg:grid-rows-1 lg:grid-cols-[1.1fr_1fr] bg-pearl">
+            <section className="bg-bordeaux text-white flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-12 lg:px-20">
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-7xl leading-none">
                     Bellíssima
                 </h1>
-                <p className="mt-3 text-sm tracking-[0.4em] text-[#C8A26B]">
+                <p className="mt-3 text-sm tracking-[0.4em] text-champagne">
                     STUDIO
                 </p>
-                <div className="mt-8 h-px w-16 bg-[#C8A26B]" />
-                <p className="mt-6 text-[#F4E4E8]">
+                <div className="mt-8 h-px w-16 bg-champagne" />
+                <p className="mt-6 text-blush">
                     Slogan
                 </p>
             </section>
 
-            <section className="flex items-center justify-center px-6 py-12">
+            <section className="flex items-center justify-center px-6 py-10 sm:py-12">
                 <div className="w-full max-w-sm">
-                    <h2 className="font-serif text-3xl text-[#691B37]">
+                    <h2 className="font-serif text-3xl text-bordeaux">
                         Acesse sua agenda
                     </h2>
 
@@ -77,16 +77,17 @@ export default function Login() {
                             value={senha} updateValue={setSenha}
                         />
 
-                        {erro && <p className="text-sm text-[#B3261E]" role="alert">{erro}</p>}
+                        {erro && <p className="text-sm text-danger" role="alert">{erro}</p>}
 
                         <div>
-                            <button type="submit" className="flex items-center justify-center gap-2 cursor-pointer w-full py-2.5 rounded-lg bg-[#691B37] text-white font-medium hover:bg-[#4B1128] transition">
+                            <button type="submit" className="flex items-center justify-center gap-2 cursor-pointer w-full py-2.5 
+                            rounded-lg bg-bordeaux text-white font-medium hover:bg-bordeaux-dark transition">
                                 Entrar <ArrowRight size={20}/>
                             </button>
                         </div>
                     </form>
 
-                    <p className="text-xs text-[#7C6169] mt-8">
+                    <p className="text-xs text-muted mt-8">
                         Acesso restrito ao administrador
                     </p>
                 </div>
