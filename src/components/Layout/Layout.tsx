@@ -3,7 +3,7 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const Layout = () => {
+export default function Layout() {
     const [menuAberto, setMenuAberto] = useState(false)
 
     useEffect(() => {
