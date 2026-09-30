@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { SERVICOS, type AgendamentoData, type ServicoEnum } from "../../interface/AgendamentoData"
 import useAgendamentoUpdate from "../../hooks/useAgendamentoUpdate"
+import useClienteData from "../../hooks/useClienteData"
 
 interface CreateModalProps {
     agendamento: AgendamentoData
@@ -8,7 +9,7 @@ interface CreateModalProps {
 }
 
 export default function CreateModal({ agendamento, closeModal }: CreateModalProps) {
-    const [nomeCliente, setNomeCliente] = useState(agendamento.nomeCliente)
+    const [clienteId, setClienteId] = useState(agendamento.clienteId)
     const [data, setData] = useState(agendamento.data)
     const [horario, setHorario] = useState(agendamento.horario)
     const [servicos, setServicos] = useState<ServicoEnum[]>(() => {
@@ -18,6 +19,9 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
             s.toUpperCase().replace(/\s+/g, '_') as ServicoEnum
         )
     })
+
+    const { data: dados } = useClienteData()
+    const clientes = dados ?? []
 
     function toggleServico(servico: ServicoEnum) {
         setServicos((prev) =>
@@ -36,7 +40,7 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
 
         mutate({
             id: agendamento.id,
-            data: { nomeCliente, data, horario, servicos }
+            data: { clienteId, data, horario, servicos }
         })
     }
 
@@ -66,13 +70,17 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
                     <label className="text-sm font-medium text-ink">
                         Nome da cliente
                     </label>
-                    <input
-                        type="text"
-                        value={nomeCliente}
-                        placeholder="Nome da cliente"
-                        onChange={(e) => setNomeCliente(e.target.value)}
-                        className="rounded-lg border border-line px-3 py-2 text-sm text-ink placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
-                    />
+                    <select 
+                        value={clienteId} 
+                        onChange={(e) => setClienteId(Number(e.target.value))}
+                        className="rounded-lg border border-line bg-white px-3 py-2 text-sm 
+                        text-ink placeholder:text-muted/70 focus:outline-none focus:ring-2 
+                        focus:ring-bordeaux focus:border-transparent transition"
+                    >
+                        {clientes.map((c) => (
+                            <option key={c.id} value={c.id}>{c.id} - {c.nome}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="flex flex-col gap-4 min-[420px]:flex-row">

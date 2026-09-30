@@ -5,6 +5,7 @@ import { format, parseISO } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import useAgendamentoData from "../../hooks/useAgendamentoData"
 import useAgendamentoDelete from "../../hooks/useAgendamentoDelete"
+import useAgendamentoDoMes from "../../hooks/useAgendamentosDoMes"
 import { Trash, Pencil } from "lucide-react"
 import CreateModal from "../../components/CreateModal/CreateModal"
 import type { AgendamentoData } from "../../interface/AgendamentoData"
@@ -68,6 +69,8 @@ export default function Calendario() {
     const { data: agendamentos } = useAgendamentoData({ data: diaSelecionado })
     const { mutate, isSuccess, isPending } = useAgendamentoDelete()
 
+    const { data: diasComAgendamento } = useAgendamentoDoMes({ mes, ano })
+
     const cells = useMemo(() => montarGridMes(ano, mes), [ano, mes])
 
     const mesLabel = useMemo(
@@ -116,15 +119,14 @@ export default function Calendario() {
         if (!isSuccess) return
     }, [isSuccess])
 
-    // Guarda o agendamento específico em edição, não um boolean genérico.
     const [agendamentoEmEdicao, setAgendamentoEmEdicao] = useState<AgendamentoData | null>(null)
 
     return (
-        <div className="bg-pearl p-1 text-ink">
+        <div className="w-full bg-pearl p-1 text-ink scrollbar-gutter-stable">
             <h1 className="mb-2 font-serif text-3xl text-bordeaux sm:text-4xl">Calendario</h1>
 
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.4fr_1fr]">
-                <div className="rounded-2xl border-line bg-white p-3 shadow-sm sm:p-4">
+            <div className="w-full grid grid-cols-1 items-start gap-4 xl:grid-cols-[1.4fr_1fr]">
+                <div className="w-full min-w-0 overflow-hidden rounded-2xl border-line bg-white p-3 shadow-sm sm:p-4">
                     <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-2 sm:gap-3">
                             <button
@@ -169,27 +171,28 @@ export default function Calendario() {
                             const key = diaSelecionadoKey(cell.ano, cell.mes, cell.dia)
                             const isSelecionado = cell.noMes && key === diaSelecionado
                             const isHoje = cell.noMes && key === hojeKey()
-                            const temAgendamentos = cell.noMes && !!agendamentos?.length
+                            const temAgendamentos = cell.noMes && diasComAgendamento?.has(key)
 
                             return (
                                 <button
                                     key={idx}
                                     disabled={!cell.noMes}
                                     onClick={() => setDiaSelecionado(key)}
-                                    className={`flex aspect-square cursor-pointer flex-col items-center justify-start rounded-lg pt-1.5 text-sm sm:rounded-xl sm:pt-2 transition-colors ${
+                                    className={`relative box-border flex aspect-square w-full cursor-pointer flex-col items-center justify-start overflow-hidden rounded-lg pt-1.5 text-sm transition-colors outline-none sm:rounded-xl sm:pt-2 ${
                                         !cell.noMes
                                             ? "cursor-default text-line"
                                             : isSelecionado
-                                            ? "bg-bordeaux text-white"
+                                            ? "bg-bordeaux text-white ring-2 ring-bordeaux ring-inset"
                                             : "text-ink hover:bg-blush"
                                     }`}
                                 >
-                                    <span className={isHoje && !isSelecionado ? "font-semibold text-bordeuax" : isSelecionado ? "font-medium" : ""}>
+                                    <span className={isHoje && !isSelecionado ? "font-semibold text-bordeaux" : isSelecionado ? "font-medium" : ""}>
                                         {cell.dia}
                                     </span>
+
                                     {temAgendamentos && (
                                         <span
-                                            className={`mt-1.5 h-1.5 w-1.5 rounded-full ${
+                                            className={`absolute bottom-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full ${
                                                 isSelecionado ? "bg-champagne" : "bg-bordeaux"
                                             }`}
                                         />
@@ -200,7 +203,7 @@ export default function Calendario() {
                     </div>
                 </div>
 
-                <div className="rounded-2xl border-line bg-white p-4 shadow-sm sm:p-5">
+                <div className="w-full min-w-0 rounded-2xl border-line bg-white p-4 shadow-sm sm:p-5">
                     <h2 className="mb-1 font-serif text-xl text-bordeaux sm:text-2xl">
                         Agendamentos de {diaSelecionadoLabelCurto}
                     </h2>

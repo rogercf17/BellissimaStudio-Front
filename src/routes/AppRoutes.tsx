@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import Layout from "../components/Layout/Layout";
 import Calendario from "../pages/Calendario/Calendario";
 import CriarAgendamento from "../pages/CriarAgendamento/CriarAgendamento";
+import Clientes from "../pages/Clientes/Clientes";
 
 export default function AppRoutes() {
     return(
@@ -13,6 +14,7 @@ export default function AppRoutes() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/calendario" element={<Calendario />} />
                 <Route path="/criar" element={<CriarAgendamento />} />
+                <Route path="/clientes" element={<Clientes />} />
             </Route>
         </Routes>
     )

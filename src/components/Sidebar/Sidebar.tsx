@@ -5,6 +5,7 @@ const menuItems = [
     { label: 'Home', icon: Home, path: '/home' },
     { label: 'Calendário', icon: Calendar, path: '/calendario' },
     { label: 'Criar Agendamento', icon: Plus, path: '/criar' },
+    { label: 'Clientes', icon: User, path: '/clientes' },
 ]
 
 interface SidebarProps {
