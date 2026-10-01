@@ -54,10 +54,10 @@ export default function Login() {
                 <p className="mt-3 text-sm tracking-[0.4em] text-champagne">
                     STUDIO
                 </p>
-                <div className="mt-8 h-px w-16 bg-champagne" />
+                {/* <div className="mt-8 h-px w-16 bg-champagne" />
                 <p className="mt-6 text-blush">
                     Slogan
-                </p>
+                </p> */}
             </section>
 
             <section className="flex items-center justify-center px-6 py-10 sm:py-12">

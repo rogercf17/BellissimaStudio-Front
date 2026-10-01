@@ -1,4 +1,4 @@
-import { Calendar, Home, Plus, User, X } from "lucide-react"
+import { Calendar, Home, Plus, User, X, DollarSign } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
 const menuItems = [
@@ -6,6 +6,7 @@ const menuItems = [
     { label: 'Calendário', icon: Calendar, path: '/calendario' },
     { label: 'Criar Agendamento', icon: Plus, path: '/criar' },
     { label: 'Clientes', icon: User, path: '/clientes' },
+    { label: 'Financeiro', icon: DollarSign, path: '/financeiro' }
 ]
 
 interface SidebarProps {
@@ -50,7 +51,9 @@ export const Sidebar = ({ aberto, onFechar }: SidebarProps) => {
                             to={path}
                             onClick={onFechar}
                             className={({ isActive }) =>
-                                `flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-lg text-sm transition border-l-2 ${
+                                `flex items-center gap-3 px-3 py-3 lg:py-2.5 rounded-lg 
+                                text-sm transition border-l-2 shadow-[0_8px_30px_-12px_rgba(105,27,55,0.15)] 
+                                ${
                                     isActive
                                     ? 'bg-bordeaux-dark text-white font-medium border-champagne'
                                     : 'text-blush-deep border-transparent hover:bg-white/10 hover:text-white'

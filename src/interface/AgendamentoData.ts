@@ -21,4 +21,5 @@ export interface AgendamentoData {
     data: string
     horario: string
     servicos: ServicoEnum[]
+    valor: number
 }

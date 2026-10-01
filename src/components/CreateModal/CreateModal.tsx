@@ -19,6 +19,7 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
             s.toUpperCase().replace(/\s+/g, '_') as ServicoEnum
         )
     })
+    const [valor, setValor] = useState(String(agendamento.valor ?? ""))
 
     const { data: dados } = useClienteData()
     const clientes = dados ?? []
@@ -40,7 +41,7 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
 
         mutate({
             id: agendamento.id,
-            data: { clienteId, data, horario, servicos }
+            data: { clienteId, data, horario, servicos, valor: Number(valor) }
         })
     }
 
@@ -103,6 +104,23 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
                             className="rounded-lg border border-line px-3 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent transition"
                         />
                     </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                    <label className="text-sm font-medium text-ink">
+                        Valor (R$)
+                    </label>
+                    <input
+                        type="number"
+                        inputMode="decimal"
+                        step="0.01"
+                        min="0.01"
+                        value={valor}
+                        onChange={(e) => setValor(e.target.value)}
+                        className="rounded-lg border border-line px-3 py-2 text-sm text-ink 
+                        focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent 
+                        transition"
+                    />
                 </div>
 
                 <div className="flex flex-col gap-1.5">

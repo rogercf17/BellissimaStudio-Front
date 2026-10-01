@@ -123,10 +123,10 @@ export default function Calendario() {
 
     return (
         <div className="w-full bg-pearl p-1 text-ink scrollbar-gutter-stable">
-            <h1 className="mb-2 font-serif text-3xl text-bordeaux sm:text-4xl">Calendario</h1>
+            <h1 className="mb-2 font-serif text-3xl text-bordeaux sm:text-4xl">Calendário</h1>
 
             <div className="w-full grid grid-cols-1 items-start gap-4 xl:grid-cols-[1.4fr_1fr]">
-                <div className="w-full min-w-0 overflow-hidden rounded-2xl border-line bg-white p-3 shadow-sm sm:p-4">
+                <div className="w-full min-w-0 overflow-hidden rounded-2xl border border-line bg-white p-3 shadow-sm sm:p-4">
                     <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-2 sm:gap-3">
                             <button
@@ -203,7 +203,7 @@ export default function Calendario() {
                     </div>
                 </div>
 
-                <div className="w-full min-w-0 rounded-2xl border-line bg-white p-4 shadow-sm sm:p-5">
+                <div className="w-full min-w-0 rounded-2xl border border-line bg-white p-4 shadow-sm sm:p-5">
                     <h2 className="mb-1 font-serif text-xl text-bordeaux sm:text-2xl">
                         Agendamentos de {diaSelecionadoLabelCurto}
                     </h2>
@@ -240,7 +240,7 @@ export default function Calendario() {
                                         disabled={isPending}
                                         aria-label="Excluir agendamento"
                                     >
-                                        {isPending ? "Excluindo..." : <Trash color="#ff0000" size={18} />}
+                                        {isPending ? "Excluindo..." : <Trash size={18} />}
                                     </button>
                                     <button
                                         className="cursor-pointer rounded-md p-2 text-muted sm:p-1 
@@ -248,7 +248,7 @@ export default function Calendario() {
                                         onClick={() => setAgendamentoEmEdicao(a)}
                                         aria-label="Editar agendamento"
                                     >
-                                        <Pencil color="#00ff1e" size={18} />
+                                        <Pencil size={18} />
                                     </button>
                                 </div>
                             </div>

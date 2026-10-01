@@ -61,7 +61,8 @@ export default function Clientes() {
             <p className="font-serif text-xl sm:text-2xl text-ink mb-4">Gerencie os clientes do seu salão.</p>
 
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-4 sm:gap-6">
-                <section className="bg-white rounded-2xl shadow-sm border border-line p-4 sm:p-6 flex flex-col gap-4">
+                <section className="bg-white rounded-2xl shadow-sm border border-line p-4 sm:p-6 
+                flex flex-col gap-4">
                     <div className="flex flex-col sm:flex-row gap-3">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-bordeaux" />
@@ -70,7 +71,9 @@ export default function Clientes() {
                                 value={busca}
                                 onChange={(e) => setBusca(e.target.value)}
                                 placeholder="Buscar cliente por nome"
-                                className="h-11 w-full rounded-xl border border-line pl-10 pr-3 text-sm text-ink placeholder:text-ink/50 focus:outline-none focus:ring-2 focus:ring-bordeaux/30"
+                                className="h-11 w-full rounded-xl border border-line pl-10 pr-3 
+                                text-sm text-ink placeholder:text-ink/50 focus:outline-none 
+                                focus:ring-2 focus:ring-bordeaux/30"
                             />
                         </div>
                         <button 

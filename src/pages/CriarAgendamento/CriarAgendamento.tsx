@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react"
 import { SERVICOS, type AgendamentoData, type ServicoEnum } from "../../interface/AgendamentoData"
 import useAgendamentoMutate from "../../hooks/UseAgendamentoMutate"
 import useClienteData from "../../hooks/useClienteData"
+import { CreateModalCliente } from "../../components/CreateModalCliente/CreateModalCliente"
 
 export default function CriarAgendamento() {
     const [clienteId, setClienteId] = useState(0)
     const [data, setData] = useState("")
     const [horario, setHorario] = useState("")
     const [servicos, setServicos] = useState<ServicoEnum[]>([])
+    const [valor, setValor] = useState("")
 
     function toggleServico(servico: ServicoEnum) {
         setServicos((prev) =>
@@ -29,7 +31,8 @@ export default function CriarAgendamento() {
             clienteId, 
             data,
             horario,
-            servicos
+            servicos,
+            valor: Number(valor)
         }
 
         mutate(agendamentoData)
@@ -38,18 +41,34 @@ export default function CriarAgendamento() {
         setData("")
         setHorario("")
         setServicos([])
+        setValor("")
     }
 
     useEffect(() => {
         if (!isSuccess) return
     }, [isSuccess])
 
+    const [modalAberto, setModalAberto] = useState(false)
+    const [clienteEditando, setClienteEditando] = useState<typeof clientes[number] | undefined>()
+    const abrirNovo = () => { setClienteEditando(undefined); setModalAberto(true) }
+    const fecharModal = () => setModalAberto(false)
+
     return (
-        <div className="px-0 py-2 sm:px-2 sm:py-4">
+        <div className="px-0 py-2 sm:px-2 sm:py-3">
             <div className="w-full bg-white rounded-2xl shadow-sm border border-line p-5 sm:p-8">
-                <h1 className="font-serif text-2xl sm:text-3xl text-bordeaux mb-6">
-                    Criar Agendamento
-                </h1>
+                <div className="flex flex-row justify-between items-center mb-4">
+                    <h1 className="font-serif text-2xl sm:text-3xl text-bordeaux">
+                        Criar Agendamento
+                    </h1>
+                    <button 
+                        className="h-11 inline-flex items-center justify-center gap-2 
+                        rounded-xl bg-bordeaux px-5 text-sm font-medium text-white 
+                        hover:opacity-90 transition cursor-pointer"
+                        onClick={abrirNovo}
+                    >
+                        + Novo cliente
+                    </button>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="flex flex-col gap-1.5">
                         <label className="text-sm font-medium text-ink">
@@ -89,6 +108,23 @@ export default function CriarAgendamento() {
                             />
                         </div>
                     </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-sm font-medium text-ink">
+                            Valor (R$)
+                        </label>
+                        <input
+                            type="number"
+                            inputMode="decimal"
+                            step="0.01"
+                            min="0.01"
+                            value={valor}
+                            onChange={(e) => setValor(e.target.value)}
+                            className="rounded-lg border border-line bg-white px-3 py-2 
+                            text-sm text-ink focus:outline-none focus:ring-2 focus:ring-bordeaux 
+                            focus:border-transparent transition"
+                        />
+                    </div>
                     
                     <label className="text-sm font-medium text-ink">
                         Serviço(s):
@@ -125,6 +161,9 @@ export default function CriarAgendamento() {
                     </button>
                 </form>
             </div>
+            {modalAberto && (
+                <CreateModalCliente closeModal={fecharModal} cliente={clienteEditando} />
+            )}
         </div>
     )
 }
