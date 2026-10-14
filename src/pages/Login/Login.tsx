@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react"
+import { useEffect, useState, type FormEvent } from "react"
 import { ArrowRight } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
@@ -28,6 +28,24 @@ export default function Login() {
     const [senha, setSenha] = useState("")
     const [erro, setErro] = useState("")
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const API_URL = import.meta.env.VITE_API_URL
+        async function health() {
+            try {
+                const resposta = await fetch(`${API_URL}/health`)
+
+                if (!resposta.ok) {
+                    throw new Error('Servidor indisponível');
+                }
+                const texto = await resposta.text();
+                return texto
+            }catch (erro) {
+                console.error(erro)
+            }
+        }
+        health()
+    }, [])
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()

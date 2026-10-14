@@ -9,17 +9,17 @@ interface useAgendamentoDataProps {
 }
 
 const fetchData = async (data: string): Promise<AgendamentoData[]> => {
-    const response = await axios.get<AgendamentoData[]>(
-        `${API_URL}/agendamento/data/${data}`,
-        {
-            headers: {
-                'Cache-Control': 'no-cache',
-                'Pragma': 'no-cache',
-            },
-            params: { _t: Date.now() } 
+    try {
+        const response = await axios.get<AgendamentoData[]>(
+            `${API_URL}/agendamento/data/${data}`
+        )
+        return response.data
+    }catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+            return []
         }
-    )
-    return response.data
+        throw error
+    }
 }
 
 export default function useAgendamentoData({ data }: useAgendamentoDataProps) {
