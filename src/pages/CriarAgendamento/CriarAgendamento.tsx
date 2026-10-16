@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import axios from "axios"
 import { SERVICOS, type AgendamentoData, type ServicoEnum } from "../../interface/AgendamentoData"
 import useAgendamentoMutate from "../../hooks/UseAgendamentoMutate"
 import useClienteData from "../../hooks/useClienteData"
@@ -22,26 +23,44 @@ export default function CriarAgendamento() {
     const { data: dados } = useClienteData()
     const clientes = dados ?? []
 
-    const { mutate, isSuccess, isPending } = useAgendamentoMutate();
+    const { mutate, isSuccess, isPending, isError, error } = useAgendamentoMutate();
+    const [erroForm, setErroForm] = useState("")
+
+    const mensagemErro = erroForm || (isError
+        ? (axios.isAxiosError(error) && error.response?.data?.erro) ||
+          "Não foi possível criar o agendamento. Tente novamente."
+        : "")
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
+        if (!clienteId) {
+            setErroForm("Selecione a cliente.")
+            return
+        }
+        if (servicos.length === 0) {
+            setErroForm("Selecione pelo menos um serviço.")
+            return
+        }
+        setErroForm("")
+
         const agendamentoData: AgendamentoData = {
-            clienteId, 
+            clienteId,
             data,
             horario,
             servicos,
             valor: Number(valor)
         }
 
-        mutate(agendamentoData)
-
-        setClienteId(0)
-        setData("")
-        setHorario("")
-        setServicos([])
-        setValor("")
+        mutate(agendamentoData, {
+            onSuccess: () => {
+                setClienteId(0)
+                setData("")
+                setHorario("")
+                setServicos([])
+                setValor("")
+            }
+        })
     }
 
     useEffect(() => {
@@ -77,10 +96,12 @@ export default function CriarAgendamento() {
                         <select 
                             value={clienteId} 
                             onChange={(e) => setClienteId(Number(e.target.value))}
-                            className="rounded-lg border border-line bg-white px-3 py-2 text-sm 
-                            text-ink placeholder:text-muted/70 focus:outline-none focus:ring-2 
+                            required
+                            className="rounded-lg border border-line bg-white px-3 py-2 text-sm
+                            text-ink placeholder:text-muted/70 focus:outline-none focus:ring-2
                             focus:ring-bordeaux focus:border-transparent transition"
                         >
+                            <option value={0} disabled>Selecione a cliente</option>
                             {clientes.map((c) => (
                                 <option key={c.id} value={c.id}>{c.id} - {c.nome}</option>
                             ))}
@@ -152,7 +173,10 @@ export default function CriarAgendamento() {
                             )
                         })}
                     </div>
-                    <button 
+                    {mensagemErro && (
+                        <p className="text-sm text-danger">{mensagemErro}</p>
+                    )}
+                    <button
                         type="submit"
                         disabled={isPending}
                         className="cursor-pointer w-full mt-2 rounded-lg bg-bordeaux text-white text-sm font-medium py-3 sm:py-2.5 hover:bg-bordeaux-dark disabled:opacity-60 disabled:cursor-not-allowed transition"
