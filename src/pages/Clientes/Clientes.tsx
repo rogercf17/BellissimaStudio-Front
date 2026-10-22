@@ -116,7 +116,8 @@ export default function Clientes() {
                     {isLoading && <p className="text-sm text-ink/60">Carregando...</p>}
                     {isError && <p className="text-sm text-red-600">Erro ao carregar clientes.</p>}
 
-                    <div className="hidden md:grid grid-cols-[2fr_1.4fr_1.6fr_1fr_1.2fr] gap-3 px-3 text-xs text-ink/60 border-b border-line pb-2">
+                    <div className="hidden md:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_110px] 
+                    gap-3 px-3 text-xs text-ink/60 border-b border-line pb-2">
                         <span>Cliente</span>
                         <span>Último atendimento</span>
                         <span className="text-right">Status</span>
@@ -130,24 +131,25 @@ export default function Clientes() {
                                 <li
                                     key={c.id}
                                     onClick={() => { if (c.id !== undefined) setSelecionadoId(c.id) }}
-                                    className={`grid grid-cols-1 md:grid-cols-[2fr_1.4fr_1.6fr_1fr_1.2fr] gap-2 md:gap-3 items-center px-3 py-3 rounded-xl cursor-pointer border-b border-line/60 last:border-0 transition ${
+                                    className={`grid grid-cols-[1fr_auto] md:grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_110px] 
+                                        gap-x-3 gap-y-1 items-center px-3 py-3 
+                                        rounded-xl cursor-pointer border-b border-line/60 last:border-0 transition ${
                                         ativa ? "bg-bordeaux/5" : "hover:bg-bordeaux/5"
                                     }`}
                                 >
-                                    <div className="flex items-center gap-3 min-w-0">
-                                        <p className="text-sm font-medium text-ink">{c.nome}</p>
-                                    </div>
+                                    <p className="text-sm font-medium text-ink truncate">{c.nome}</p>
 
-
-                                    <div>
+                                    <div className="md:order-none order-last col-span-2 md:col-span-1">
                                         {ult ? (
-                                            <p className="text-sm text-ink">{ult.data}</p>
+                                            <p className="text-sm text-ink/70">{ult.data}</p>
                                         ) : (
                                             <p className="text-sm text-ink/50">—</p>
                                         )}
                                     </div>
 
-                                    <div><Status ativo={!!c.ativo} /></div>
+                                    <div className="md:justify-self-end">
+                                        <Status ativo={!!c.ativo} />
+                                    </div>
                                 </li>
                             )
                         })}
