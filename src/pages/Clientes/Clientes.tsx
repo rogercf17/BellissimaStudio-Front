@@ -118,7 +118,6 @@ export default function Clientes() {
 
                     <div className="hidden md:grid grid-cols-[2fr_1.4fr_1.6fr_1fr_1.2fr] gap-3 px-3 text-xs text-ink/60 border-b border-line pb-2">
                         <span>Cliente</span>
-                        <span>Telefone</span>
                         <span>Último atendimento</span>
                         <span className="text-right">Status</span>
                     </div>
@@ -139,7 +138,6 @@ export default function Clientes() {
                                         <p className="text-sm font-medium text-ink">{c.nome}</p>
                                     </div>
 
-                                    <p className="text-sm text-ink">{c.telefone}</p>
 
                                     <div>
                                         {ult ? (
@@ -167,7 +165,6 @@ export default function Clientes() {
                                     <h2 className="font-serif text-xl text-bordeaux">{selecionado.nome}</h2>
                                     <Status ativo={!!selecionado.ativo} />
                                 </div>
-                                <p className="text-xs text-ink/70 mt-1">{selecionado.telefone}</p>
                                 <button 
                                     className="absolute top-3 right-3 h-8 w-8 rounded-lg 
                                     border border-line bg-white flex items-center justify-center 

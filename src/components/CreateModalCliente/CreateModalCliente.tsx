@@ -11,7 +11,6 @@ interface CreateModalClienteProps {
 export const CreateModalCliente = ({ closeModal, cliente }: CreateModalClienteProps) => {
     const editando = !!cliente
     const [nome, setNome] = useState(cliente?.nome ?? "")
-    const [telefone, setTelefone] = useState(cliente?.telefone ?? "")
     const [ativo, setAtivo] = useState(cliente?.ativo ?? true)
 
     const { mutate: mutateStatus, isPending: statusPending } = useClienteStatus()
@@ -20,7 +19,7 @@ export const CreateModalCliente = ({ closeModal, cliente }: CreateModalClientePr
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        mutate({ ...cliente, nome, telefone })
+        mutate({ ...cliente, nome })
     }
 
     useEffect(() => {
@@ -74,17 +73,6 @@ export const CreateModalCliente = ({ closeModal, cliente }: CreateModalClientePr
                             placeholder="Nome da cliente"
                             value={nome}
                             onChange={(e) => setNome(e.target.value)}
-                            className={inputClass}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                        <label className="text-sm font-medium text-ink">Telefone da cliente</label>
-                        <input
-                            type="tel"
-                            required
-                            placeholder="(11) 99999-9999"
-                            value={telefone}
-                            onChange={(e) => setTelefone(e.target.value)}
                             className={inputClass}
                         />
                     </div>
