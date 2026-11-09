@@ -11,7 +11,7 @@ export default function useAgendamentoDelete() {
     const queryCliente = useQueryClient()
 
     return useMutation({
-        mutationFn: deleteData,
+        mutationFn: (id: number) => deleteData(id),
         onSuccess: async () => {
             await queryCliente.refetchQueries({
                 queryKey: ['agendamento-data'],
