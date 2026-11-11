@@ -9,6 +9,9 @@ export const SERVICOS = [
     "ESCOVA_E_PRANCHA",
     "PENTEADO",
     "MAQUIAGEM",
+    "COLORACAO",
+    "CORTE",
+    "TRATAMENTO",
 ] as const
 
 export type ServicoEnum = typeof SERVICOS[number]
