@@ -22,4 +22,5 @@ export interface AgendamentoData {
     horario: string
     servicos: ServicoEnum[]
     valor: number
+    statusPagamento?: "PAGO" | "PENDENTE"
 }

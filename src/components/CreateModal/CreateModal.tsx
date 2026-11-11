@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { SERVICOS, type AgendamentoData, type ServicoEnum } from "../../interface/AgendamentoData"
 import useAgendamentoUpdate from "../../hooks/useAgendamentoUpdate"
 import useClienteData from "../../hooks/useClienteData"
+import { isAxiosError } from "axios"
 
 interface CreateModalProps {
     agendamento: AgendamentoData
@@ -20,6 +21,7 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
         )
     })
     const [valor, setValor] = useState(String(agendamento.valor ?? ""))
+    const pago = agendamento.statusPagamento === "PAGO"
 
     const { data: dados } = useClienteData()
     const clientes = dados ?? []
@@ -32,7 +34,12 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
         )
     }
 
-    const { mutate, isSuccess, isPending, isError } = useAgendamentoUpdate()
+    const { mutate, isSuccess, isPending, isError, error } = useAgendamentoUpdate()
+
+    const mensagemErro =
+        isAxiosError(error) && error.response?.data
+            ? Object.values(error.response.data).join(" ")
+            : "Não foi possível salvar as mudanças. Tente novamente."
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -117,10 +124,16 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
                         min="0.01"
                         value={valor}
                         onChange={(e) => setValor(e.target.value)}
+                        disabled={pago}
                         className="rounded-lg border border-line px-3 py-2 text-sm text-ink 
                         focus:outline-none focus:ring-2 focus:ring-bordeaux focus:border-transparent 
-                        transition"
+                        transition disabled:bg-pearl disabled:text-muted disabled:cursor-not-allowed"
                     />
+                    {pago && (
+                        <p className="text-xs text-muted">
+                            O valor não pode ser alterado porque o agendamento já foi pago.
+                        </p>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-1.5">
@@ -154,7 +167,7 @@ export default function CreateModal({ agendamento, closeModal }: CreateModalProp
 
                 {isError && (
                     <p className="text-sm text-danger">
-                        Não foi possível salvar as mudanças. Tente novamente.
+                        {mensagemErro}
                     </p>
                 )}
 
